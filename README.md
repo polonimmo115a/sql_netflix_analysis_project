@@ -262,9 +262,9 @@ GROUP BY category;
 - **Common Ratings:** Insights into the most common ratings provide an understanding of the content's target audience.
 - **Geographical Insights:** The top countries and the average content releases by India highlight regional content distribution.
 - **Content Categorization:** Categorizing content based on specific keywords helps in understanding the nature of content available on Netflix.
--**Content preference:** TV shows are growing faster than movies in recent years.
--**Regional preferences matter:**Bollywood titles dominate India
--**Retention strategy:**Countries with declining new releases show higher churn risk. 
+- **Content preference:** TV shows are growing faster than movies in recent years.
+- **Regional preferences matter:** Bollywood titles dominate India
+- **Retention strategy:** Countries with declining new releases show higher churn risk. 
 This analysis provides a comprehensive view of Netflix's content and can help inform content strategy and decision-making.
 
 
