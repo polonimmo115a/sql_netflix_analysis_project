@@ -72,7 +72,7 @@ WITH RatingCounts AS (
         rating,
         COUNT(*) AS rating_count
     FROM netflix
-    GROUP BY type, rating
+    GROUP BY 1, 2
 ),
 RankedRatings AS (
     SELECT 
@@ -94,9 +94,9 @@ WHERE rank = 1;
 ### 3. List All Movies Released in a Specific Year (e.g., 2020)
 
 ```sql
-SELECT * 
-FROM netflix
-WHERE release_year = 2020;
+select type,release_year
+from netflix 
+where type='Movie' and release_year=2020
 ```
 
 **Objective:** Retrieve all movies released in a specific year.
@@ -104,18 +104,12 @@ WHERE release_year = 2020;
 ### 4. Find the Top 5 Countries with the Most Content on Netflix
 
 ```sql
-SELECT * 
-FROM
-(
-    SELECT 
-        UNNEST(STRING_TO_ARRAY(country, ',')) AS country,
-        COUNT(*) AS total_content
-    FROM netflix
-    GROUP BY 1
-) AS t1
-WHERE country IS NOT NULL
-ORDER BY total_content DESC
-LIMIT 5;
+select unnest(string_to_array(country,',')) as new_country,count(*) as no_of_content
+from netflix
+where country is not null
+group by 1
+order by 2 desc
+limit 5
 ```
 
 **Objective:** Identify the top 5 countries with the highest number of content items.
@@ -123,11 +117,11 @@ LIMIT 5;
 ### 5. Identify the Longest Movie
 
 ```sql
-SELECT 
-    *
+SELECT duration	
 FROM netflix
-WHERE type = 'Movie'
-ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
+WHERE type = 'Movie' and duration is not null
+ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC
+limit 1
 ```
 
 **Objective:** Find the movie with the longest duration.
@@ -135,9 +129,8 @@ ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
 ### 6. Find Content Added in the Last 5 Years
 
 ```sql
-SELECT *
-FROM netflix
-WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years';
+select to_date(date_added,'month dd,yyyy') as new_date_added,show_id,type,title from netflix
+where to_date(date_added,'month dd,yyyy')>=current_date-interval '5 years'
 ```
 
 **Objective:** Retrieve content added to Netflix in the last 5 years.
@@ -151,7 +144,7 @@ FROM (
         *,
         UNNEST(STRING_TO_ARRAY(director, ',')) AS director_name
     FROM netflix
-) AS t
+) 
 WHERE director_name = 'Rajiv Chilaka';
 ```
 
@@ -206,7 +199,7 @@ LIMIT 5;
 ```sql
 SELECT * 
 FROM netflix
-WHERE listed_in LIKE '%Documentaries';
+WHERE listed_in LIKE '%Documentaries%';
 ```
 
 **Objective:** Retrieve all movies classified as documentaries.
@@ -250,18 +243,11 @@ LIMIT 10;
 ### 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
 
 ```sql
-SELECT 
-    category,
-    COUNT(*) AS content_count
-FROM (
-    SELECT 
-        CASE 
-            WHEN description ILIKE '%kill%' OR description ILIKE '%violence%' THEN 'Bad'
-            ELSE 'Good'
-        END AS category
-    FROM netflix
-) AS categorized_content
-GROUP BY category;
+select category,type,count(*) as no_of_items  from (
+select *,case when description like '%kill%' or description like '%violence%' then 'Bad'
+else 'Good' end as category from netflix)
+group by 1,2
+order by 3 desc
 ```
 
 **Objective:** Categorize content as 'Bad' if it contains 'kill' or 'violence' and 'Good' otherwise. Count the number of items in each category.
