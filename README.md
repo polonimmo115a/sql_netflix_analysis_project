@@ -5,6 +5,16 @@
 ## Overview
 This project involves a comprehensive analysis of Netflix's movies and TV shows data using SQL. The goal is to extract valuable insights and answer various business questions based on the dataset. The following README provides a detailed account of the project's objectives, business problems, solutions, findings, and conclusions.
 
+## Business problem
+
+Netflix faces challenges such as:
+
+- **Content Overload:** Thousands of titles, but not all drive engagement.
+- **Regional Preferences:** Different countries prefer different genres.
+- **Retention & Churn:** Subscribers leave if they don’t find relevant content.
+- **Investment Decisions:** Which genres, directors, or regions deserve more budget?
+
+  
 ## Objectives
 
 - Analyze the distribution of content types (movies vs TV shows).
@@ -265,6 +275,8 @@ GROUP BY category;
 - **Content preference:** TV shows are growing faster than movies in recent years.
 - **Regional preferences matter:** Bollywood titles dominate India
 - **Retention strategy:** Countries with declining new releases show higher churn risk. 
+
+
 This analysis provides a comprehensive view of Netflix's content and can help inform content strategy and decision-making.
 
 
